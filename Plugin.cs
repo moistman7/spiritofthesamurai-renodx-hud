@@ -1,6 +1,4 @@
-using System.IO;
 using BepInEx;
-using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
@@ -9,44 +7,27 @@ using UnityEngine.UI;
 
 namespace SpiritOfTheSamuraiRenoDXHud
 {
-    // RenoDX companion for The Spirit of the Samurai. The game draws its HUD into the scene target
+    // RenoDX HDR HUD support for The Spirit of the Samurai. The game draws its HUD into the scene target
     // before post-processing, so the Unity RenoDX addon's UI Brightness cancels out against its scene
     // brightness compensation. This plugin optionally renders UI/Canvas in a second camera after
     // post-processing, and optionally hides the UI/Canvas/vignette sprite that RenoDX's Vignette
-    // slider cannot reach. Both are independent of the ultrawide plugin.
-    // Soft dependency only orders loading, so the ultrawide version check below can see it.
+    // slider cannot reach.
     [BepInPlugin(Guid, "Spirit of the Samurai RenoDX HUD", "1.0.0")]
-    [BepInDependency(UltrawideGuid, BepInDependency.DependencyFlags.SoftDependency)]
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "renodx.spiritofthesamurai.hdrhud";
-        private const string UltrawideGuid = "renodx.spiritofthesamurai.ultrawide";
 
         internal static BepInEx.Logging.ManualLogSource Log;
         internal static ConfigEntry<bool> SeparateHud;
         internal static ConfigEntry<bool> DisableVignette;
-        private static bool active = true;
 
         private void Awake()
         {
             Log = Logger;
-            bool fresh = !File.Exists(Config.ConfigFilePath);
             SeparateHud = Config.Bind("HUD", "SeparateHud", false,
                 "Render UI/Canvas after scene post-processing so the Unity RenoDX UI Brightness slider affects the HUD. Experimental; F7 toggles and saves.");
             DisableVignette = Config.Bind("Vignette", "DisableVignette", false,
                 "Hide the game's UI/Canvas/vignette sprite. F8 toggles and saves.");
-            if (fresh) MigrateUltrawideSettings();
-
-            // Ultrawide 1.7.x carries its own copy of both features; running two HUD cameras or two
-            // vignette toggles on the same objects is not supported.
-            if (Chainloader.PluginInfos.TryGetValue(UltrawideGuid, out PluginInfo ultrawide)
-                && ultrawide.Metadata.Version < new System.Version(1, 8, 0))
-            {
-                active = false;
-                Logger.LogWarning($"Inactive: Spirit of the Samurai Ultrawide {ultrawide.Metadata.Version} already provides HUD/vignette control. Update it to 1.8.0 or later.");
-                return;
-            }
-
             System.Type renderer_2d = AccessTools.TypeByName("UnityEngine.Rendering.Universal.Renderer2D");
             if (AccessTools.Method(renderer_2d, "Setup") != null && AccessTools.Method(renderer_2d, "CreateRenderTextures") != null
                 && AccessTools.Field(renderer_2d, "m_CreateColorTexture") != null && AccessTools.Field(renderer_2d, "m_CreateDepthTexture") != null)
@@ -64,20 +45,8 @@ namespace SpiritOfTheSamuraiRenoDXHud
             Logger.LogInfo($"Loaded. SeparateHud={SeparateHud.Value} (F7), DisableVignette={DisableVignette.Value} (F8).");
         }
 
-        // Carry over preferences saved by ultrawide 1.7.x so moving to this plugin keeps behaviour.
-        private void MigrateUltrawideSettings()
-        {
-            string path = Path.Combine(Paths.ConfigPath, UltrawideGuid + ".cfg");
-            if (!File.Exists(path)) return;
-            var old_config = new ConfigFile(path, false) { SaveOnConfigSet = false };
-            SeparateHud.Value = old_config.Bind("Experimental", "SeparateHud", false).Value;
-            DisableVignette.Value = old_config.Bind("Diagnostics", "DisableVignette", false).Value;
-            Logger.LogInfo($"Imported settings from {Path.GetFileName(path)}: SeparateHud={SeparateHud.Value}, DisableVignette={DisableVignette.Value}.");
-        }
-
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!active) return;
             // Scene-owned controller: the plugin's own GameObject is not a reliable Update host here.
             if (mode == LoadSceneMode.Single)
             {

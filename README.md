@@ -2,8 +2,7 @@
 
 The HDR HUD part of RenoDX support for *The Spirit of the Samurai* (Windows, Unity/Mono). RenoDX
 ([renodx-unity](https://github.com/NotVoosh/renodx-unity)) is how the game gets HDR; this BepInEx 5
-plugin makes its HUD and vignette controls work in this game. It is independent of the ultrawide
-plugin.
+plugin makes its HUD and vignette controls work in this game.
 
 > Unofficial community mod. It contains no game files. Use at your own risk.
 
@@ -44,15 +43,6 @@ To uninstall, delete the DLL.
     SeparateHud = false
     [Vignette]
     DisableVignette = false
-
-On first run the plugin copies both values from `renodx.spiritofthesamurai.ultrawide.cfg` if it
-exists, so moving over from ultrawide 1.7.x keeps your settings.
-
-## Using it with the ultrawide plugin
-
-Use the Ultrawide plugin **1.8.1 or later** (1.8.0 also works but leaves the damage border at 16:9
-width when the HUD is separate). Ultrawide 1.7.x has its own copy of these two features; if it is
-installed, this plugin logs a warning and stays inactive so they don't fight over the same objects.
 
 ## Known limitations
 
