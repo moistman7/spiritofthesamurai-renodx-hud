@@ -1,8 +1,9 @@
 # The Spirit of the Samurai — RenoDX HUD
 
-A BepInEx 5 companion plugin for *The Spirit of the Samurai* (Windows, Unity/Mono) when used with the
-generic Unity [RenoDX](https://github.com/NotVoosh/renodx-unity) HDR addon. It does two optional
-things and works with or without the ultrawide plugin.
+The HDR HUD part of RenoDX support for *The Spirit of the Samurai* (Windows, Unity/Mono). RenoDX
+([renodx-unity](https://github.com/NotVoosh/renodx-unity)) is how the game gets HDR; this BepInEx 5
+plugin makes its HUD and vignette controls work in this game. It is independent of the ultrawide
+plugin.
 
 > Unofficial community mod. It contains no game files. Use at your own risk.
 
@@ -16,7 +17,8 @@ things and works with or without the ultrawide plugin.
   Vignette slider does not reach. The damage and fatigue overlays are left alone. This works without
   RenoDX too.
 
-Both are **off** on a fresh install. Each hotkey toggles its feature and saves the choice.
+Both are **off** on a fresh install (the HUD one is still experimental). Each hotkey toggles its
+feature and saves the choice.
 
 ## Requirements
 
@@ -81,5 +83,5 @@ the DLL into `BepInEx/plugins`.
 ## Credits and license
 
 Built on [BepInEx](https://github.com/BepInEx/BepInEx), [Harmony](https://github.com/pardeike/Harmony)
-and designed to complement [renodx-unity](https://github.com/NotVoosh/renodx-unity). MIT licensed, see
+and made to work with [renodx-unity](https://github.com/NotVoosh/renodx-unity). MIT licensed, see
 `LICENSE`. *The Spirit of the Samurai* belongs to its developers.
