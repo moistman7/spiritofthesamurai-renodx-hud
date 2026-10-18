@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 — 2026-10-18
+- Removed the vignette toggle (F8, `[Vignette] DisableVignette`); it now lives in the Ultrawide plugin.
+  Old config entries are ignored.
+
 ## 1.0.0
 - Initial release.
 - Separate HUD rendering (F7): UI/Canvas is moved to an unused layer and drawn by a second base

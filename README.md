@@ -2,7 +2,7 @@
 
 The HDR HUD part of RenoDX support for *The Spirit of the Samurai* (Windows, Unity/Mono). RenoDX
 ([renodx-unity](https://github.com/NotVoosh/renodx-unity)) is how the game gets HDR; this BepInEx 5
-plugin makes its HUD and vignette controls work in this game.
+plugin makes its HUD brightness control work in this game.
 
 > Unofficial community mod. It contains no game files. Use at your own risk.
 
@@ -12,12 +12,9 @@ plugin makes its HUD and vignette controls work in this game.
   so RenoDX's *UI Brightness* slider has no visible effect on it. This plugin draws UI/Canvas with a
   second camera after post-processing, so the slider applies to the HUD and the scene is unchanged.
   Experimental.
-- **Vignette removal (F8).** Hides the game's own `UI/Canvas/vignette` sprite, which RenoDX's
-  Vignette slider does not reach. The damage and fatigue overlays are left alone. This works without
-  RenoDX too.
 
-Both are **off** on a fresh install (the HUD one is still experimental). Each hotkey toggles its
-feature and saves the choice.
+It is **off** on a fresh install (still experimental). F7 toggles it and saves the choice. The vignette
+toggle moved to the Ultrawide plugin (F8 or its mod menu).
 
 ## Requirements
 
@@ -29,8 +26,8 @@ feature and saves the choice.
 
 1. Close the game and install BepInEx 5 x64 into the game folder (where `samurai.exe` is).
 2. Copy `SpiritOfTheSamuraiRenoDXHud.dll` to `BepInEx/plugins/`.
-3. Launch the game. `BepInEx/LogOutput.log` should contain `Loading [Spirit of the Samurai RenoDX HUD 1.0.0]`.
-4. In a gameplay scene, press F7 (HUD) and/or F8 (vignette). In the log you should see
+3. Launch the game. `BepInEx/LogOutput.log` should contain `Loading [Spirit of the Samurai RenoDX HUD 1.1.0]`.
+4. In a gameplay scene, press F7. In the log you should see
    `HUD composition active: ...` after F7.
 
 To uninstall, delete the DLL.
@@ -41,8 +38,6 @@ To uninstall, delete the DLL.
 
     [HUD]
     SeparateHud = false
-    [Vignette]
-    DisableVignette = false
 
 ## Known limitations
 
